@@ -42,6 +42,18 @@ const whyWorld = {
   }
 }
 
+const makeMakeHello = {
+  makeMakeHello() {
+    this.make = 'hello';
+  }
+}
+
+const makeMakeSomething = {
+  makeMakeSomething(something) {
+    this.make = something;
+  }
+}
+
 
 // mixin
 describe('mixin', function(){
@@ -119,6 +131,36 @@ describe('mixin', function(){
 
     expect(x).to.equal(2);
   });
+
+  it(`should be able to affect instance variables`,
+    () => {
+
+      @mixin(makeMakeHello)
+      class TestClass {}
+
+      const instance = new TestClass();
+      expect(typeof instance.make).to.equal('undefined');
+
+      instance.makeMakeHello();
+      expect(instance.make).to.equal('hello');
+
+    }
+  );
+
+  it(`should be able to affect instance variables`,
+    () => {
+
+      @mixin(makeMakeSomething)
+      class TestClass {}
+
+      const instance = new TestClass();
+      expect(typeof instance.make).to.equal('undefined');
+
+      instance.makeMakeSomething('radical');
+      expect(instance.make).to.equal('radical');
+
+    }
+  );
 
 
 });
